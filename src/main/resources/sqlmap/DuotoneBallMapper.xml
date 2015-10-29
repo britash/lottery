@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.monk.lottery.service.dal.DuotoneBallMapper">
+
+	<resultMap id="DuotoneBallResultMap" type="DuotoneBallEntity" >
+		<id column="id" property="id"/>
+		<result column="issue" property="issue"/>
+		<result column="red_ball" property="redBall"/>
+		<result column="blue_ball" property="blueBall" />
+	 </resultMap>
+
+	<!-- insert -->
+	<insert id="insert" parameterType="DuotoneBallEntity"
+		keyProperty="id" useGeneratedKeys="true">
+	<![CDATA[
+		INSERT INTO lottery_duotone_ball (
+		issue,red_ball,blue_ball,total_sell,total_money,first,first_money,second,second_money)VALUES(
+		#{issue},
+		#{redBall},
+		#{blueBall},
+		#{totalSell},
+		#{totalMoney},
+		#{first},
+		#{firstMoney},
+		#{second},
+		#{secondMoney}
+		)
+	]]>
+	</insert>
+
+	<!-- delete -->
+	<delete id="delete" parameterType="Long">
+	<![CDATA[
+		DELETE FROM lottery_duotone_ball WHERE id = #{id}
+	]]>
+	</delete>
+	
+	<sql id="column_List" >
+   	 a.id,a.issue,a.red_ball,a.blue_ball,total_sell,total_money,first,first_money,second,second_money
+  	</sql>
+	
+	<!-- list -->
+	<select id="findByExample" resultMap="DuotoneBallResultMap"	parameterType="DuotoneBallEntityExample">
+	SELECT 
+		<include refid="column_List" /> 
+		from   lottery_duotone_ball a
+	 	 <if test="_parameter != null" >
+	     	 <include refid="BaseMapper.Example_Where_Clause" />
+	        <include refid="BaseMapper.Example_Order_Clause" />
+			<include refid="BaseMapper.Example_Limit_Clause" />
+	       
+	    </if>
+	</select>
+	
+		<select id="countByExample" resultType="Integer"	parameterType="DuotoneBallEntityExample">
+	SELECT 	count(*)
+		from   lottery_duotone_ball a
+	 	 <if test="_parameter != null" >
+	     	 <include refid="BaseMapper.Example_Where_Clause" />
+	    </if>
+	</select>
+</mapper>

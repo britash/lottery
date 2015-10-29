@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" [
+  <!ENTITY log.dir "/data/logs/server/settlement">
+]>
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/' >
+  
+	<appender name="myConsole" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+		 	<param name="ConversionPattern" value="%d{HH:mm:ss,SSS} %p %c{1}.%M %m%n" />
+		 	<!-- <param name="ConversionPattern" value="[%d{dd HH:mm:ss,SSS\} %-5p] [%t] %c{2\} - %m%n" /> -->
+		</layout>
+		<!--过滤器设置输出的级别-->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="debug" />
+			<!-- <param name="levelMax" value="error" /> -->
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+
+	<appender name="myFile" class="org.apache.log4j.RollingFileAppender">  
+		<!-- 设置日志输出文件名 -->
+		<param name="File" value="&log.dir;/tcl-settlement-service.log" />
+		<!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->
+		<param name="Append" value="true" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p %c.%M - %m%n" />
+			<!-- <param name="ConversionPattern" value="%p (%c:%L)- %m%n" /> -->
+		</layout>
+	</appender>
+ 
+	<appender name="activexAppender" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="&log.dir;/tcl-settlement-service.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" /> 
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p %c.%M - %m%n" />
+		 	<!-- <param name="ConversionPattern" value="[%d{MMdd HH:mm:ss SSS\} %-5p] [%t] %c{3\} - %m%n" /> -->
+		</layout> 
+	</appender>
+	
+	
+	<!-- <logger name="org.springframework">
+		<level value="INFO" />
+	</logger>
+	<logger name="org.springframework.jdbc">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="org.springframework.aop">
+		<level value="INFO" />
+	</logger>
+	<logger name="org.springframework.jms">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.mybatis.spring">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="org.mybatis.spring.mapper">
+		<level value="INFO" />
+	</logger>
+	<logger name="org.apache.ibatis.io">
+		<level value="INFO" />
+	</logger>
+	<logger name="org.apache.activemq">
+		<level value="INFO" />
+	</logger>
+	<logger name="org.quartz">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.apache.log4j">
+		<level value="INFO" />
+	</logger>
+	<logger name="org.apache.commons">
+		<level value="INFO" />
+	</logger>
+	<logger name="org.apache.zookeeper">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.I0Itec">
+		<level value="WARN" />
+	</logger> -->
+  
+
+	<!-- 根logger的设置-->
+	<root>
+		<priority value ="trace"/>
+		<appender-ref ref="myConsole"/>
+		<appender-ref ref="activexAppender"/>	
+	</root>
+</log4j:configuration>

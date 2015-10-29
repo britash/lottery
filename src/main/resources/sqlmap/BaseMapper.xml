@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BaseMapper">
+	<sql id="Example_Where_Clause" >
+   	 <where >
+   		 <choose >
+       		<when test="example.valid" >
+		      <foreach collection="example.queryCriteria" item="criteria" separator="or" >
+		          <trim prefix="(" suffix=")" prefixOverrides="and" >
+		           <choose >
+       					<when test="criteria.valid" >
+				            <foreach collection="criteria.criteria" item="criterion" >
+				              <choose >
+				                <when test="criterion.noValue" >
+				                  and ${criterion.condition}
+				                </when>
+				                <when test="criterion.singleValue" >
+				                  and ${criterion.condition} #{criterion.value}
+				                </when>
+				                <when test="criterion.betweenValue" >
+				                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+				                </when>
+				                <when test="criterion.listValue" >
+				                  and ${criterion.condition}
+				                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+				                    #{listItem}
+				                  </foreach>
+				                </when>
+				              </choose>
+				            </foreach>
+			       		 </when>
+				        <otherwise> 
+				        	and 1=1
+						</otherwise> 
+	      				</choose>
+		            </trim>
+		      </foreach>
+       		 </when>
+	        <otherwise> 
+	        	and 1=1
+			</otherwise> 
+	      </choose>
+    </where>
+   </sql>
+  
+   <sql id="Example_Order_Clause" >
+	   	<if test="example.orderByClause != null" >
+	      order by ${example.orderByClause}
+	    </if>
+   </sql>
+   
+   <sql id="Example_Limit_Clause" >
+	   	<if test="example.limit != null" >
+	    	<if test="example.start != null" >
+	      		limit  ${example.start}, ${example.limit}
+		    </if>
+	    	<if test="example.start == null" >
+	      		limit  ${example.limit}
+		    </if>
+	    </if>
+   </sql>
+</mapper>
