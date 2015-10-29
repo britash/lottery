@@ -115,7 +115,7 @@ public class DuotoneBallImportSevice {
 			
 			
 			DuotoneBallEntity netdbe = downloadDetailFromNet(dbe.getIssue());
-			if(dbe.getIssue().intValue() == netdbe.getIssue()){
+			if(netdbe != null && dbe.getIssue().intValue() == netdbe.getIssue()){
 				dbe = netdbe;
 			}else{
 				String red =e.select("td.balls tr td").eq(0).html();
@@ -157,7 +157,13 @@ public class DuotoneBallImportSevice {
 		String net = String.format(netHost, issue);
 		//String ret = HttpRequestUtil.get(net, null);
 		String ret = invoker.get(net);
-		return resolveNetDetailHTML(ret);
+		try{
+			DuotoneBallEntity bean =  resolveNetDetailHTML(ret);
+			return bean;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public DuotoneBallEntity resolveNetDetailHTML(String html){
